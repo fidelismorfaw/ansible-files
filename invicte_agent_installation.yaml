@@ -1,0 +1,20 @@
+- name: Install Invicti Agent
+  hosts: win
+  become: true
+  become_method: runas
+  become_user: Administrator
+  gather_facts: no
+  vars:
+    invicti_agent_url: "https://testing12321.s3.amazonaws.com/AgentSetup.exe"
+  
+  tasks:
+    - name: Download Invicti Agent
+      win_get_url:
+      url: "{{ invicti_agent_url }}"
+      dest: "C:/Temp/AgentSetup.exe"
+      
+    - name: Install Invicti Agent
+      win_package:
+        path: "C:/Temp/AgentSetup.exe"
+          #product_id: "{INSERT_PRODUCT_ID_HERE}"
+        arguments: "/quite/norestart"
